@@ -18,7 +18,7 @@ from random import randint
 # Parameters for the program. Can be changed.
 MAX_NUMBERS = 5
 OPERATORS = ['+', '-', '·']  # List of possible operator marks.
-RANGE_LIMIT = 1000
+RANGE_LIMIT = 1000  # Range of numbers in either direction of 0.
 MAX_TIME_LIMIT = 900
 CFG_FILE = str(Path(__file__).parent.absolute()) + '/MAT.cfg'
 # Tk event key symbols: http://www.tcl.tk/man/tcl8.4/TkCmd/keysyms.htm
@@ -510,11 +510,11 @@ def settings_errors(s):
                               % MAX_NUMBERS)
 
     # If ranges out of... range.
-    if not 0 <= s['range_lower'] <= RANGE_LIMIT or \
+    if not -RANGE_LIMIT <= s['range_lower'] <= RANGE_LIMIT or \
             not 0 <= s['range_upper'] <= RANGE_LIMIT:
         error_messages.append("Range settings: allowed range for the numbers "
                               "is from %s to %s."
-                              % (0, RANGE_LIMIT))
+                              % (-1 * RANGE_LIMIT, RANGE_LIMIT))
 
     # Lower range bigger than upper.
     if s['range_lower'] >= s['range_upper']:
@@ -583,19 +583,19 @@ def help_message():
     showinfo(
         "Help",
         "This program is for training mental arithmetic.\n\n"
-        "The numbers setting lets you change how many numbers will be in "
-        "the calculation. (2-%s)\n\n"
-        "The range setting lets you choose the range in which the"
-        "numbers are randomly chosen from. (0-%s)\n\n"
+        "The numbers setting lets you change how many numbers there will be in"
+        " the calculation. (2 - %s)\n\n"
+        "The range setting lets you choose the range in which the "
+        "numbers are randomly chosen from. (%s - %s)\n\n"
         "The operator setting will let you choose the calculation method.\n\n"
         "Time limit: you can set a timer. If it is set to 0, timer will be"
-        " disabled. (0-%s)\n\n"
+        " disabled. (0 - %s)\n\n"
         "When the game is started, simply write the correct answer and "
         "press the ENTER button to submit it and move on to the next one."
         " The game will run until you press start or until timer runs out."
         " Pressing ENTER when the answer box is empty will skip.\n\n"
         "Your current and previous scores will be shown in the bottom."
-        % (MAX_NUMBERS, RANGE_LIMIT, MAX_TIME_LIMIT)
+        % (MAX_NUMBERS, -RANGE_LIMIT, RANGE_LIMIT, MAX_TIME_LIMIT)
     )
 
 
